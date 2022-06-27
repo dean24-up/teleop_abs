@@ -15,7 +15,7 @@
 # limitations under the License.
 #################################################################################
 
-#original file is turtlebot_obstacle
+#original file is turtlebot_obstacle, above warranty is from that
 # Authors: Gilbert #
 
 #edited by dean24
@@ -25,13 +25,13 @@ import math
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 
-#I'm not sure, but it kinda looks like you can't run this at the same time as teleop or something? Simply because the
-#program has linear velocity and angular velocity hard coded. Maybe you could modify it to work with teleop though. -s
-#Ok so I can't have it subscribe also to cmd_vel because it doesn't work that way, but
-#is there a way I can have it print the linear velocity?? and change the stop distance accordingly?
+##In its current state, the program should stop if it is within distance and you shouldn't be able to use teleop unless you pick up
+#the turtle and move it.
 
-#because for now to increase compatibility with teleop I was just gonna delete the LINEAR_VEL
-#stuff, but I understand why it should be fixed so the safe stopping distance is accurate
+#Otherwise, teleop should work normally
+
+#referenced get_pose program in roswiki_tutorials of Turtlesim_Python_Files to get a better
+#understanding of subscriber/publisher relationships and remapping
 
 
 STOP_DISTANCE = 0.2
@@ -40,7 +40,14 @@ SAFE_STOP_DISTANCE = STOP_DISTANCE + LIDAR_ERROR
 
 class Obstacle():
     def __init__(self):
-        self._cmd_pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)       #so this publishes Twist messages to cmd_vel -s
+        #creates a node of the name teleop_abs
+        rospy.init_node('teleop_abs')
+        
+        #Publisher which publishes to abs_vel (stands for automatic braking system velocity)
+        pub = rospy.Publisher('turtlebot3/abs_vel', Twist, queue_size=1000) 
+        
+        #Subscriber which subscribes to cmd_vel. self.obstacle is called when a Twist msg received
+        rospy.Subscriber('turtlebot3/cmd_vel', Twist, self.obstacle, queue_size=1000)
         self.obstacle()
     
     #this looks like a function tha tprocesses scans? dunno if I need to understand this for obstacle avoidance -s
@@ -76,46 +83,42 @@ class Obstacle():
         return scan_filter
 
 
-    def obstacle(self):
-        twist = Twist()
+    def obstacle(self, data):
+        
+        #Take the Twist data received from cmd_vel and save it as vel_in
+        vel_in = Twist()
+        vel_in = data   
+        
+        #Declare variable to store twist data to be published to abs_vel as vel_out
+        vel_out = Twist()
+        
         turtlebot_moving = True
 
-        while not rospy.is_shutdown():              #while the program is still running
+        #while the program is not shut down
+        while not rospy.is_shutdown():       
             lidar_distances = self.get_scan()
             min_distance = min(lidar_distances)
 
+            #if it's necessary to stop
             if min_distance < SAFE_STOP_DISTANCE:   #if the closest lidar distance to the robot is less than safe stopping distance -s
                 if turtlebot_moving:                #stop the robot immediately!! -s
-                    twist.linear.x = 0.0
-                    twist.angular.z = 0.0
-                    self._cmd_pub.publish(twist)
+                    vel_out.linear.x = 0.0
+                    vel_out.angular.z = 0.0
+                    self._cmd_pub.publish(vel_out)  #publish vel_out
                     rospy.loginfo('Stop!')
-
-                    while turtlebot_moving == True:
-                        twist.linear.x = 0.0
-                        twist.angular.z = 0.0
-                        self._cmd_pub.publish(twist)
-                        #prompt the user to ask if turtle stopped in teleop
-                        ready2move = input("Is the turtle stopped inteleop?": )
-                        if ready2move.strip().capitalize() == "Yes":
-                            turtlebot_moving = False
-                            break
-                        else:  
-                            turtlebot_moving = True
+                    turtlebot_moving = False
+            
+            #if the robot is safe to keep going
             else:
-                #twist.linear.x = LINEAR_VEL         #otherwise, keep the linear x the same, don't turn? wonder why
-                #twist.angular.z = 0.0
-                #self._cmd_pub.publish(twist)
+                vel_out.linear.x = vel_in.linear.x   #otherwise, keep the velocity the same as from teleop
+                vel_out.angular.z = vel_in.angular.z
+                self._cmd_pub.publish(vel_out)       #publish vel_out
                 turtlebot_moving = True
                 rospy.loginfo('Distance of the obstacle : %f', min_distance)
 
 def main():
     try: 
-        rospy.init_node('turtlebot3_obstacle')
-        pub = rospy.Publisher('turtlebot3/final_vel', Twist, queue_size=1000) #new publisher that will publish the final moves for turtlebot
-        rospy.Subscriber('turtlebot3/cmd_vel', Twist, Obstacle, queue_size=1000)        #subscribes to cmd_vel, which teleop publishes to
-        
-        #obstacle = Obstacle()
+        obstacle = Obstacle()
     except rospy.ROSInterruptException:
         pass
 
