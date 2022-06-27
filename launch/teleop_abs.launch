@@ -1,0 +1,18 @@
+<launch>
+    <node
+        pkg="turtlebot3_teleop"
+        type="turtlebot3_teleop_key"
+        name="teleop_key"
+    >
+        <remap
+            from="/cmd_vel"
+            to = "/abs_vel"
+        />
+    </node>
+    <node
+        pkg="teleop_abs"
+        type="teleop_abs.py"
+        name="teleop_abs"
+        launch-prefix="xterm-e"
+    />
+</launch>

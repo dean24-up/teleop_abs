@@ -44,10 +44,10 @@ class Obstacle():
         rospy.init_node('teleop_abs')
         
         #Publisher which publishes to abs_vel (stands for automatic braking system velocity)
-        pub = rospy.Publisher('turtlebot3/abs_vel', Twist, queue_size=1000) 
+        pub = rospy.Publisher('/abs_vel', Twist, queue_size=1000) 
         
         #Subscriber which subscribes to cmd_vel. self.obstacle is called when a Twist msg received
-        rospy.Subscriber('turtlebot3/cmd_vel', Twist, self.obstacle, queue_size=1000)
+        rospy.Subscriber('/cmd_vel', Twist, self.obstacle, queue_size=1000)
         self.obstacle()
     
     #this looks like a function tha tprocesses scans? dunno if I need to understand this for obstacle avoidance -s
