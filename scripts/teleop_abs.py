@@ -48,7 +48,6 @@ class Obstacle():
         
         #Subscriber which subscribes to cmd_vel. self.obstacle is called when a Twist msg received
         rospy.Subscriber('/cmd_vel', Twist, self.obstacle, queue_size=1000)
-        self.obstacle()
     
     #this looks like a function tha tprocesses scans? dunno if I need to understand this for obstacle avoidance -s
     def get_scan(self):
@@ -63,7 +62,7 @@ class Obstacle():
         if samples_view > samples:
             samples_view = samples
 
-        if samples_view is 1:
+        if samples_view == 1:
             scan_filter.append(scan.ranges[0])
 
         else:
