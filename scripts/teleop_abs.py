@@ -41,13 +41,13 @@ SAFE_STOP_DISTANCE = STOP_DISTANCE + LIDAR_ERROR
 class Obstacle():
     def __init__(self):
         #creates a node of the name teleop_abs
-        rospy.init_node('teleop_abs')
+        #rospy.init_node('teleop_abs')
         
-        #Publisher which publishes to abs_vel (stands for automatic braking system velocity)
-        pub = rospy.Publisher('/abs_vel', Twist, queue_size=1000) 
+        #Publisher which publishes to cmd_vel (stands for automatic braking system velocity)
+        pub = rospy.Publisher('cmd_vel', Twist, queue_size=1000) 
         
-        #Subscriber which subscribes to cmd_vel. self.obstacle is called when a Twist msg received
-        rospy.Subscriber('/cmd_vel', Twist, self.obstacle, queue_size=1000)
+        #Subscriber which subscribes to abs_vel. self.obstacle is called when a Twist msg received
+        rospy.Subscriber('abs_vel', Twist, self.obstacle, queue_size=1000)
     
     #this looks like a function tha tprocesses scans? dunno if I need to understand this for obstacle avoidance -s
     def get_scan(self):
@@ -83,6 +83,8 @@ class Obstacle():
 
 
     def obstacle(self, data):
+
+        print("I'm running!")
         
         #Take the Twist data received from cmd_vel and save it as vel_in
         vel_in = Twist()
@@ -116,6 +118,9 @@ class Obstacle():
                 rospy.loginfo('Distance of the obstacle : %f', min_distance)
 
 def main():
+    #creates a node of the name teleop_abs
+    rospy.init_node('teleop_abs')
+
     try: 
         obstacle = Obstacle()
     except rospy.ROSInterruptException:
