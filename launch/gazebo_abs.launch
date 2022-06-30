@@ -1,0 +1,28 @@
+<launch>
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch">
+        <arg name="model" value="$(env TURTLEBOT3_MODEL)"/>
+    </include>
+    <node
+        pkg="turtlebot3_teleop"
+        type="turtlebot3_teleop_key"
+        name="teleop_key"
+        launch-prefix="xterm -e"
+    >
+        <remap
+            from="cmd_vel"
+            to = "teleop_vel"
+        />
+    </node>
+    <node
+        pkg="teleop_abs"
+        type="filter_scan.py"
+        name="filter_abs"
+        launch-prefix="xterm -e"
+    />
+    <node
+        pkg="teleop_abs"
+        type="abs_control.py"
+        name="abs_control"
+        launch-prefix="xterm -e"
+    />
+</launch>
