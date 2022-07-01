@@ -3,12 +3,14 @@
         pkg="teleop_abs"
         type="filter_scan.py"
         name="filter_abs"
+        output="screen"
 
     />
     <node
         pkg="teleop_abs"
         type="abs_control.py"
         name="abs_control"
+        output="screen"
         launch-prefix="xterm -e"
    
     />
