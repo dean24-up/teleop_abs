@@ -38,7 +38,7 @@ from std_msgs.msg import String
 #referenced get_pose program in roswiki_tutorials of Turtlesim_Python_Files to get a better
 #understanding of subscriber/publisher relationships and remapping
 
-STOP_DISTANCE = 0.2
+STOP_DISTANCE = 0.4
 LIDAR_ERROR = 0.05
 SAFE_STOP_DISTANCE = STOP_DISTANCE + LIDAR_ERROR
 
