@@ -3,7 +3,7 @@ This is the first working version of teleop_abs!
 The turtlebot will stop (overriding any teleop commands) when it is within 0.2 meters of an obstacle. It must be picked up and moved somewhere else to resume moving again, and it will begin moving at the velocity specified by teleop once it is safe to move. 
 
 
-NOTE!!: My CMake file is messy. I'm not sure what's wrong with it right now, but I'll continue to work on that in future versions/branches. I'm not sure if this is an issue with my catkin workspace itself or my CMake file, but currently when I run catkin_make, it can't complete when it tried to build this package. 
+NOTE!!: Updated to include a cleaner CMake file
 
 Instructions to run:
 
