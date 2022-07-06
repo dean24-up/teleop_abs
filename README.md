@@ -5,7 +5,7 @@ This is the second working version of teleop_abs!
 The turtlebot will pause for one second (overriding any teleop commands) and turn 45 degrees when it is within 0.4 meters (double distance of Working_V1) of an obstacle. After the turn, the turtlebot won't be able to move again until the user stops it (using 's') in teleop. You can also see these prompts in the terminal for abs_control.py
 
 
-NOTE!!: My CMake file is STILL messy. I'm not sure what's wrong with it right now, but I'll continue to work on that in future versions/branches. I'm not sure if this is an issue with my catkin workspace itself or my CMake file, but currently when I run catkin_make, it can't complete when it tried to build this package. 
+NOTE!!: CMake is copied from Working_V1.
 
 Instructions to run:
 

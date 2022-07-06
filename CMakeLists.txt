@@ -1,8 +1,6 @@
-
-#I haven't finished formatting this but I'm taking a break :'(
-
 cmake_minimum_required(VERSION 3.0.2)
 project(teleop_abs)
+set(CATKIN_DEPS rospy geometry_msgs sensor_msgs std_msgs turtlebot3_teleop turtlebot3_gazebo)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,20 +8,7 @@ project(teleop_abs)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  actionlib
-  actionlib_msgs
-  geometry_msgs
-  message_generation
-  message_runtime
-  nav_msgs
-  rospy
-  sensor_msgs
-  std_msgs
-  turtlebot3_bringup
-  turtlebot3_msgs
-  visualization
-)
+find_package(catkin REQUIRED COMPONENTS ${CATKIN_DEPS})
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -74,19 +59,17 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate actions in the 'action' folder
 #copied from the CMake for turtlebot_examples
-add_action_files(
-  FILES
-  Turtlebot3.action
-)
+
+#add_action_files(
+#  FILES
+#  Turtlebot3.action
+#)
 
 ## Generate added messages and services with any dependencies listed here
-#copied from CMake for turtlebot_examples
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-  geometry_msgs
-  actionlib_msgs
-)
+#generate_messages(
+  #DEPENDENCIES
+
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -118,15 +101,12 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 
-
-
-#catkin_package(
-
-#  INCLUDE_DIRS include
-#  LIBRARIES teleop_abs
-#  CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs message_generation message_runtime msgs nav_msgs rospy sensor_msgs std_msgs turtlebot3_bringup turtlebot3_msgs visualization
-#  DEPENDS system_lib
-#)
+catkin_package(
+#INCLUDE_DIRS include 
+#LIBRARIES teleop_abs
+CATKIN_DEPENDS ${CATKIN_DEPS}
+#DEPENDS system_lib
+)
 
 ###########
 ## Build ##
