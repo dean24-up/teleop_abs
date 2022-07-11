@@ -12,7 +12,7 @@ from geometry_msgs.msg import Twist
 pub = None 
 teleop_vel = Twist() #stores the most recent input from teleop
 ANGULAR_SPEED = 1
-TURN_ANGLE = 45
+TURN_ANGLE = 45   #degrees to turn
 
 #Twist to make robot turn left
 turn_left = Twist()
