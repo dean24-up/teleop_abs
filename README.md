@@ -1,8 +1,10 @@
-# Working_V3
+# Working_V4
 
-This is the third working version of teleop_abs!
+This is the fourth working version of teleop_abs!
 
-The turtlebot will execute a quick turn (about 45 degrees) left or right when it is within 0.5 meters of an obstacle. The direction it turns depends on whether there is an obstacle closer to the left or right. After the turn, the turtlebot will resume normal teleoperation, UNLESS it has turned into another obstacle, in which case it won't accept any more commands until manually moved. 
+The turtlebot will turn left or right when it is within 0.5 meters of an obstacle until it is no longer facing an obstacle. The direction it turns depends on whether there is an obstacle closer to the left or right. After the turn, the turtlebot will resume normal teleoperation.
+
+bugs and note: sometimes turtlebot gets "confused" and turns rapidly left and right when faced with obstacles on multiple sides. Also, the fix used to get it to turn continuously was to turn turtlebot_moving to TRUE always, which is a bit messy, but easiest for now. ANGULAR_SPEED was reduced. 
 
 Instructions to run:
 

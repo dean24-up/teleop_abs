@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
-#abs_control
+#abs_control v.4
 #program that decides whether or not to publish velocities from teleop based on info from brake topic
 # or whether or not to stop robot
+# this version makes one sharp turn left or right. If that turn deflects turtlebot into another obstacle, it will stop
+# until it is manually moved to another location
+
 #by dean_24
 
 import rospy
@@ -11,8 +14,7 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 pub = None 
 teleop_vel = Twist() #stores the most recent input from teleop
-ANGULAR_SPEED = 5.0
-\
+ANGULAR_SPEED = 2.0
 
 #Twist to make robot turn left
 turn_left = Twist()

@@ -15,7 +15,7 @@
 # limitations under the License.
 #################################################################################
 
-#filter_scan v.3
+#filter_scan v.4
 #Gets scan info from laser scan and publishes braking data (turn left, right, or go (continue with teleop commands)) to brake topic
 
 #original file is turtlebot_obstacle, above warranty is from that
@@ -57,12 +57,12 @@ def filter_scans():
                 if min_distance_left < min_distance_right:     
                     rospy.loginfo('Turn Right!')
                     pub.publish('Turn Right!')
-                    turtlebot_moving = False
+                    turtlebot_moving = True
                 #else if obstacle on right is closer
                 elif min_distance_left > min_distance_right:     
                     rospy.loginfo('Turn Left!')
                     pub.publish('Turn Left!')
-                    turtlebot_moving = False
+                    turtlebot_moving = True
        
         #if the robot is safe to keep going
         else:
