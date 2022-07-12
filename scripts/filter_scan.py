@@ -15,14 +15,13 @@
 # limitations under the License.
 #################################################################################
 
-##filter_scan
-#Gets scan info from laser scan and publishes braking data to brake topic based on data
-
+#filter_scan v.3
+#Gets scan info from laser scan and publishes braking data (turn left, right, or go (continue with teleop commands)) to brake topic
 
 #original file is turtlebot_obstacle, above warranty is from that
 # Authors (turtlebot_obstacle_): Gilbert #
 
-#adapted by dean24
+#adapted by dean24, credit to owtreyalp for help with left/right turning in filter_scans
 
 #get_scan is from turtlebot_obstacle from turtlebot_examples by ROBOTIS. Main is very similar to that program as well.
 #referenced get_pose program in roswiki_tutorials of Turtlesim_Python_Files to get a better
@@ -94,36 +93,3 @@ if __name__ == '__main__':
     except rospy.ROSInterruptException:
         pass
 
-
-
-#this looks like a function that processes scans? Not sure if I need to understand this for obstacle avoidance 
-# def get_scan():
-#     scan = rospy.wait_for_message('scan', LaserScan)                      #waits for scan messages from LaserScan
-#     scan_filter = []
-    
-#     samples = len(scan.ranges)  # The number of samples is defined in 
-#                                 # turtlebot3_<model>.gazebo.xacro file,
-#                                 # the default is 360.
-#     samples_view = 1            # 1 <= samples_view <= samples
-    
-#     if samples_view > samples:
-#         samples_view = samples
-
-#     if samples_view == 1:
-#         scan_filter.append(scan.ranges[0])
-
-#     else:
-#         left_lidar_samples_ranges = -(samples_view//2 + samples_view % 2)
-#         right_lidar_samples_ranges = samples_view//2
-        
-#         left_lidar_samples = scan.ranges[left_lidar_samples_ranges:]
-#         right_lidar_samples = scan.ranges[:right_lidar_samples_ranges]
-#         scan_filter.extend(left_lidar_samples + right_lidar_samples)
-
-#     for i in range(samples_view):
-#         if scan_filter[i] == float('Inf'):
-#             scan_filter[i] = 3.5
-#         elif math.isnan(scan_filter[i]):
-#             scan_filter[i] = 0
-    
-#     return scan_filter

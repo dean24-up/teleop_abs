@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-#module that contains get_scan only, from obstacle6_edit created 7/11/22
+# module that contains scan only, from obstacle6_edit by owtreyalp
+# scans all ranges and returns left, right, or center range depending on user input
+# created 7/11/22
 
 import rospy
 from sensor_msgs.msg import LaserScan
