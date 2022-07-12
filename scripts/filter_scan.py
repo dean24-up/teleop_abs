@@ -43,9 +43,9 @@ def filter_scans():
     #while the program is not shut down
     while not rospy.is_shutdown(): 
         #variables to hold scan data  
-        lidar_distances = get_scan("C")
-        lidar_distances_left = get_scan("L")
-        lidar_distances_right = get_scan("R")
+        lidar_distances = get_scan.scan("C")
+        lidar_distances_left = get_scan.scan("L")
+        lidar_distances_right = get_scan.scan("R")
         min_distance_left = min(lidar_distances_left)
         min_distance_right = min(lidar_distances_right)
         min_distance = min(lidar_distances)

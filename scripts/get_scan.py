@@ -3,11 +3,11 @@
 
 import rospy
 from sensor_msgs.msg import LaserScan
-#import math
+import math
 
-#get_scan
+#scan
 #Takes argument "dir" that specifies "L" for left scan, "C" for center, "R" for right
-def get_scan(dir):
+def scan(dir):
         scan = rospy.wait_for_message('scan', LaserScan)
         scan_filter = []
 
@@ -18,15 +18,13 @@ def get_scan(dir):
         if samples_view > samples:
             samples_view = samples
 
-        if samples_view is 1:
-            match dir:
-                case "L":
-                    scan_filter.append(scan.ranges[90])
-                case "C":
-                    scan_filter.append(scan.ranges[0])
-            
-                case "R":
-                    scan_filter.append(scan.ranges[-90])  
+        if samples_view == 1:
+            if dir == "L":
+                scan_filter.append(scan.ranges[90])
+            elif dir == "C":
+                scan_filter.append(scan.ranges[0])
+            elif dir == "R":
+                scan_filter.append(scan.ranges[-90])  
             
         else:
              left_lidar_samples_ranges = -(samples_view//2 + samples_view % 2)
@@ -36,13 +34,11 @@ def get_scan(dir):
              right_lidar_samples = scan.ranges[:right_lidar_samples_ranges]
 
             #extend based on whether we're doing a left, center, or right scan
-             match dir:
-                case "L":
-                    scan_filter.extend(left_lidar_samples)
-                case "C":
+             if dir == "L":
+                scan_filter.extend(left_lidar_samples)
+             elif dir == "C":
                     scan_filter.extend(left_lidar_samples + right_lidar_samples)
-            
-                case "R":
+             elif dir == "R":
                     scan_filter.extend(right_lidar_samples)
 
         for i in range(samples_view):

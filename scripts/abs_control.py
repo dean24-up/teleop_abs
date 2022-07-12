@@ -21,7 +21,7 @@ turn_left.angular.z = ANGULAR_SPEED
 
 #Twist to make the robot turn right
 turn_right = Twist()
-turn_right.linar.x = 0
+turn_right.linear.x = 0
 turn_right.angular.z = -ANGULAR_SPEED
 
 
